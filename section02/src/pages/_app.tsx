@@ -20,7 +20,9 @@ export default function App({ Component, pageProps }: AppProps) {
       <header>
         <Link href={"/"}>index</Link>
         &nbsp;
-        <Link href={"/search"}>search</Link>
+        <Link href={"/search"} prefetch={false}>
+          search
+        </Link>
         &nbsp;
         <Link href={"/book/1"}>book/1</Link>
         <div>
