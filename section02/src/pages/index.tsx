@@ -28,7 +28,10 @@ export const getStaticProps = async () => {
     fetchRandomBooks(),
   ]);
   return {
-    props: { allBooks, recoBooks },
+    props: {
+      allBooks,
+      recoBooks,
+    },
   };
 };
 
