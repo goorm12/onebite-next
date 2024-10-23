@@ -1,6 +1,12 @@
-import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
+import {
+  GetServerSidePropsContext,
+  InferGetServerSidePropsType,
+  InferGetStaticPropsType,
+} from "next";
 import style from "./[id].module.css";
 import fetchOneBook from "@/\blib/fetch-one-book";
+import { useRouter } from "next/router";
+import { notFound } from "next/navigation";
 
 const mockData = {
   id: 1,
@@ -14,21 +20,57 @@ const mockData = {
     "https://shopping-phinf.pstatic.net/main_3888828/38888282618.20230913071643.jpg",
 };
 
-export const getServerSideProps = async (
-  context: GetServerSidePropsContext
-) => {
+// export const getServerSideProps = async (
+//   context: GetServerSidePropsContext
+// ) => {
+//   const id = context.params!.id;
+
+//   const book = await fetchOneBook(Number(id));
+//   return {
+//     props: {
+//       book,
+//     },
+//   };
+// };
+
+export const getStaticPaths = () => {
+  return {
+    paths: [
+      { params: { id: "1" } }, // book/1.html
+      { params: { id: "2" } }, // book/2.html
+      { params: { id: "3" } }, // book/3.html
+    ],
+    // 대체, 대비책
+    // 1. false : 존재하지 않은 경로는 404
+    // 2. blocking : 즉시 생성(Like SSR) SSR과 SSG가 결합된 느낌
+    // 3. true : 즉시 생성 + 페이지만 미리 반환
+    fallback: true,
+  };
+};
+
+export const getStaticProps = async (context: GetServerSidePropsContext) => {
   const id = context.params!.id;
 
   const book = await fetchOneBook(Number(id));
+
+  if (!book) {
+    return {
+      notFound: true,
+    };
+  }
   return {
     props: {
       book,
     },
   };
 };
+
 export default function Page({
   book,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+}: InferGetStaticPropsType<typeof getStaticProps>) {
+  const router = useRouter();
+
+  if (router.isFallback) return "로딩중입니다";
   if (!book) return "문제가 발생했습니다 다시 시도하세요";
 
   const { id, title, subTitle, description, author, publisher, coverImgUrl } =
