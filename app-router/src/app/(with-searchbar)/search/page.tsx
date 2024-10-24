@@ -1,13 +1,13 @@
 import BookItem from "@/components/book-item";
 import { BookData } from "@/types";
 
-export default async function Page({
-  searchParams,
-}: {
+type PropsType = {
   searchParams: {
     q?: string;
   };
-}) {
+};
+
+export default async function Page({ searchParams }: PropsType) {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_SERVER_URL}/book/search?q=${searchParams.q}`
   );
