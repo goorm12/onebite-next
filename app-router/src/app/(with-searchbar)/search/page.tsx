@@ -1,17 +1,18 @@
-import ClientComponent from "@/components/client-component";
-type PropsType = {
+import BookItem from "@/components/book-item";
+import books from "../../mock/books.json";
+
+export default function Page({
+  searchParams,
+}: {
   searchParams: {
     q?: string;
   };
-};
-
-export default function Page({ searchParams }: PropsType) {
+}) {
   return (
     <div>
-      Search 페이지 {searchParams.q}
-      <ClientComponent>
-        <></>
-      </ClientComponent>
+      {books.map((book) => (
+        <BookItem key={book.id} {...book} />
+      ))}
     </div>
   );
 }
