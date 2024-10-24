@@ -1,6 +1,6 @@
 import BookItem from "@/components/book-item";
 import style from "./page.module.css";
-import books from "../mock/books.json";
+import books from "@/mock/books.json";
 
 export default function Home() {
   return (

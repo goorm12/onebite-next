@@ -1,5 +1,5 @@
+import books from "@/mock/books.json";
 import BookItem from "@/components/book-item";
-import books from "../../mock/books.json";
 
 export default function Page({
   searchParams,
